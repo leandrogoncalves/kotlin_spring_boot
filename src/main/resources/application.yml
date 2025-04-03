@@ -1,0 +1,12 @@
+spring:
+    application:
+        name: kotlin-spring-boot
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/app_db?useSSL=false&allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=UTC
+        username: root
+        password: mysql123
+    jpa:
+        hibernate:
+            ddl-auto: update # None in production
+        show-sql: true #false in production
