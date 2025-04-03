@@ -1,5 +1,6 @@
 package dev.leandro.kotlin_spring_boot.exceptions.handler
 
+import dev.leandro.kotlin_spring_boot.exceptions.DateConversionException
 import dev.leandro.kotlin_spring_boot.exceptions.ExceptionResponse
 import dev.leandro.kotlin_spring_boot.exceptions.ResourceNotFoundException
 import dev.leandro.kotlin_spring_boot.exceptions.UnsupportedMathOperationException
@@ -49,5 +50,16 @@ class CustomizedResponseEntityExceptionHandler: ResponseEntityExceptionHandler()
             request.getDescription(false)
         )
         return ResponseEntity<ExceptionResponse>(exceptioResponse, HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(DateConversionException::class)
+    fun handleDateConversionException(ex: Exception, request: WebRequest) :
+            ResponseEntity<ExceptionResponse> {
+        val exceptioResponse = ExceptionResponse(
+            Date(),
+            ex.message,
+            request.getDescription(false)
+        )
+        return ResponseEntity<ExceptionResponse>(exceptioResponse, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }

@@ -29,6 +29,7 @@
 	<properties>
 		<java.version>21</java.version>
 		<kotlin.version>1.9.25</kotlin.version>
+		<dozer.version>7.0.0</dozer.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -55,6 +56,20 @@
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-stdlib</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
 		</dependency>
 
 		<dependency>
