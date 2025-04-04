@@ -35,6 +35,22 @@ class PersonMapper {
         return entity
     }
 
+    fun mapEntityListToEntityVo(personList: List<Person>): ArrayList<PersonVO> {
+        val outputList: ArrayList<PersonVO> = ArrayList()
+        personList.forEach {
+            outputList.add(PersonVO(
+                id = it.id,
+                firstName = it.firstName,
+                lastName = it.lastName,
+                address = it.address,
+                email = it.email ?: "",
+                gender = it.gender,
+                birthDay = dateToString(it.birthDay)
+            ))
+        }
+        return outputList
+    }
+
     fun stringToDate(dateString: String?): Date? {
         try {
             return SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())

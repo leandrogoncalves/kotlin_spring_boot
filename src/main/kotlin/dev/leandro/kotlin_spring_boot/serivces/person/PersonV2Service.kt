@@ -25,7 +25,7 @@ class PersonV2Service {
     fun findAll(): List<PersonVO> {
         logger.info("Finding all people!")
         val persons = repository.findAll()
-        return ModelMapper.parseListObjects(persons, PersonVO::class.java)
+        return mapper.mapEntityListToEntityVo(persons)
     }
 
     fun findById(id: Long): PersonVO {
@@ -51,7 +51,8 @@ class PersonV2Service {
         entity.email = person.email
         entity.address = person.address
         entity.gender = person.gender
-        return ModelMapper.parseObject(repository.save(entity), PersonVO::class.java)
+        entity.birthDay = mapper.stringToDate(person.birthDay)
+        return mapper.mapEntityToVO(repository.save(entity))
     }
 
     fun delete(id: Long) {

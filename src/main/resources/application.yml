@@ -9,5 +9,5 @@ spring:
     jpa:
         open-in-view: false
         hibernate:
-            ddl-auto: update # None in production
+            ddl-auto: none #update in local and None in production
         show-sql: true #false in production
