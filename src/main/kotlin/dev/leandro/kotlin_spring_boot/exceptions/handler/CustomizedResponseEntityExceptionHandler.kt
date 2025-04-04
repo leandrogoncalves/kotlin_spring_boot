@@ -1,9 +1,6 @@
 package dev.leandro.kotlin_spring_boot.exceptions.handler
 
-import dev.leandro.kotlin_spring_boot.exceptions.DateConversionException
-import dev.leandro.kotlin_spring_boot.exceptions.ExceptionResponse
-import dev.leandro.kotlin_spring_boot.exceptions.ResourceNotFoundException
-import dev.leandro.kotlin_spring_boot.exceptions.UnsupportedMathOperationException
+import dev.leandro.kotlin_spring_boot.exceptions.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -61,5 +58,16 @@ class CustomizedResponseEntityExceptionHandler: ResponseEntityExceptionHandler()
             request.getDescription(false)
         )
         return ResponseEntity<ExceptionResponse>(exceptioResponse, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+
+    @ExceptionHandler(RequiredObjectIsNullException::class)
+    fun handleRequiredObjectIsNullException(ex: Exception, request: WebRequest) :
+            ResponseEntity<ExceptionResponse> {
+        val exceptioResponse = ExceptionResponse(
+            Date(),
+            ex.message,
+            request.getDescription(false)
+        )
+        return ResponseEntity<ExceptionResponse>(exceptioResponse, HttpStatus.BAD_REQUEST)
     }
 }

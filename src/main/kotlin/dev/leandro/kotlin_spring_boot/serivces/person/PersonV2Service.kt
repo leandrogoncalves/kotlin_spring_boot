@@ -1,13 +1,16 @@
 package dev.leandro.kotlin_spring_boot.serivces.person
 
 
+import dev.leandro.kotlin_spring_boot.controller.v2.PersonV2Controller
 import dev.leandro.kotlin_spring_boot.data.vo.v2.PersonVO
+import dev.leandro.kotlin_spring_boot.exceptions.RequiredObjectIsNullException
 import dev.leandro.kotlin_spring_boot.exceptions.ResourceNotFoundException
-import dev.leandro.kotlin_spring_boot.mapper.ModelMapper
 import dev.leandro.kotlin_spring_boot.mapper.custom.PersonMapper
 import dev.leandro.kotlin_spring_boot.model.Person
 import dev.leandro.kotlin_spring_boot.repository.PersonRepository
+import dev.leandro.kotlin_spring_boot.util.DateHelper
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.stereotype.Service
 import java.util.logging.Logger
 
@@ -17,31 +20,41 @@ class PersonV2Service {
     @Autowired
     private lateinit var repository: PersonRepository
 
-    @Autowired
-    private lateinit var mapper: PersonMapper
-
     private val logger = Logger.getLogger(PersonV2Service::class.java.name)
 
     fun findAll(): List<PersonVO> {
         logger.info("Finding all people!")
         val persons = repository.findAll()
-        return mapper.mapEntityListToEntityVo(persons)
+        val vos = PersonMapper.mapEntityListToEntityVo(persons)
+        for (person in vos) {
+            val withSelfRel = linkTo(PersonV2Controller::class.java).slash(person.id).withSelfRel()
+            person.add(withSelfRel)
+        }
+        return vos
     }
 
     fun findById(id: Long): PersonVO {
         logger.info("Finding one person!")
         var person = repository.findById(id)
             .orElseThrow { ResourceNotFoundException("No records found for this ID!") }
-        return mapper.mapEntityToVO(person)
+        val personVO: PersonVO = PersonMapper.mapEntityToVO(person)
+        val withSelfRel = linkTo(PersonV2Controller::class.java, personVO).slash(personVO.id).withSelfRel()
+        personVO.add(withSelfRel)
+        return personVO
     }
 
-    fun create(person: PersonVO) : PersonVO{
+    fun create(person: PersonVO?) : PersonVO{
+        if (person == null) throw RequiredObjectIsNullException("It is not allowed to persist a null object!")
         logger.info("Creating one person with name ${person.firstName}!")
-        var entity: Person = mapper.mapVOToEntity(person)
-        return mapper.mapEntityToVO(repository.save(entity))
+        var entity: Person = PersonMapper.mapVOToEntity(person)
+        val personVO: PersonVO =  PersonMapper.mapEntityToVO(repository.save(entity))
+        val withSelfRel = linkTo(PersonV2Controller::class.java).slash(personVO.id).withSelfRel()
+        personVO.add(withSelfRel)
+        return personVO
     }
 
-    fun update(person: PersonVO) : PersonVO{
+    fun update(person: PersonVO?) : PersonVO{
+        if (person == null) throw RequiredObjectIsNullException("It is not allowed to persist a null object!")
         logger.info("Updating one person with ID ${person.id}!")
         val entity = repository.findById(person.id)
             .orElseThrow { ResourceNotFoundException("No records found for this ID!") }
@@ -51,8 +64,11 @@ class PersonV2Service {
         entity.email = person.email
         entity.address = person.address
         entity.gender = person.gender
-        entity.birthDay = mapper.stringToDate(person.birthDay)
-        return mapper.mapEntityToVO(repository.save(entity))
+        entity.birthDay = DateHelper.stringToDate(person.birthDay)
+        val personVO: PersonVO = PersonMapper.mapEntityToVO(repository.save(entity))
+        val withSelfRel = linkTo(PersonV2Controller::class.java).slash(personVO.id).withSelfRel()
+        personVO.add(withSelfRel)
+        return personVO
     }
 
     fun delete(id: Long) {

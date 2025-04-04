@@ -1,7 +1,9 @@
 package dev.leandro.kotlin_spring_boot.unit.mapper.mocks
 
 import dev.leandro.kotlin_spring_boot.data.vo.v1.PersonVO
+import dev.leandro.kotlin_spring_boot.data.vo.v2.PersonVO as PersonVOv2
 import dev.leandro.kotlin_spring_boot.model.Person
+import dev.leandro.kotlin_spring_boot.util.DateHelper
 import java.util.ArrayList
 
 class MockPerson {
@@ -37,6 +39,7 @@ class MockPerson {
         person.gender = if (number % 2 == 0) "Male" else "Female"
         person.id = number.toLong()
         person.lastName = "Last Name Test$number"
+        person.birthDay = DateHelper.stringToDate("16/11/1990")
         return person
     }
 
@@ -48,6 +51,18 @@ class MockPerson {
         person.gender = if (number % 2 == 0) "Male" else "Female"
         person.id = number.toLong()
         person.lastName = "Last Name Test$number"
+        return person
+    }
+
+    fun mockVOv2(number: Int): PersonVOv2 {
+        val person = PersonVOv2()
+        person.address = "Address Test$number"
+        person.firstName = "First Name Test$number"
+        person.email = "teste$number@teste.com"
+        person.gender = if (number % 2 == 0) "Male" else "Female"
+        person.id = number.toLong()
+        person.lastName = "Last Name Test$number"
+        person.birthDay = "16/11/1990"
         return person
     }
 }

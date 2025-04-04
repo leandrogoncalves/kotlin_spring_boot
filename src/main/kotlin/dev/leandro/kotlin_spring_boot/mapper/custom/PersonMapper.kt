@@ -1,15 +1,12 @@
 package dev.leandro.kotlin_spring_boot.mapper.custom
 
 import dev.leandro.kotlin_spring_boot.data.vo.v2.PersonVO
-import dev.leandro.kotlin_spring_boot.exceptions.DateConversionException
 import dev.leandro.kotlin_spring_boot.model.Person
+import dev.leandro.kotlin_spring_boot.util.DateHelper
 import org.springframework.stereotype.Service
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @Service
-class PersonMapper {
+object PersonMapper {
 
     fun mapEntityToVO(person: Person): PersonVO {
         val vo = PersonVO()
@@ -19,7 +16,7 @@ class PersonMapper {
         vo.firstName = person.firstName
         vo.lastName = person.lastName
         vo.gender = person.gender
-        vo.birthDay = dateToString(person.birthDay)
+        vo.birthDay = DateHelper.dateToString(person.birthDay)
         return vo
     }
 
@@ -28,7 +25,7 @@ class PersonMapper {
         entity.id = person.id
         entity.address = person.address
         entity.email = person.email
-        entity.birthDay = stringToDate(person.birthDay)
+        entity.birthDay = DateHelper.stringToDate(person.birthDay)
         entity.firstName = person.firstName
         entity.lastName = person.lastName
         entity.gender = person.gender
@@ -45,27 +42,10 @@ class PersonMapper {
                 address = it.address,
                 email = it.email ?: "",
                 gender = it.gender,
-                birthDay = dateToString(it.birthDay)
+                birthDay = DateHelper.dateToString(it.birthDay)
             ))
         }
         return outputList
     }
 
-    fun stringToDate(dateString: String?): Date? {
-        try {
-            return SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                .parse(dateString)
-        } catch (e: Exception) {
-            throw DateConversionException("Não foi possível converter a data de nascimento, use o formato dd/mm/YYYY")
-        }
-    }
-
-    fun dateToString(date: Date?): String {
-        return try {
-            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                .format(date)
-        } catch (e: Exception) {
-            ""
-        }
-    }
 }
