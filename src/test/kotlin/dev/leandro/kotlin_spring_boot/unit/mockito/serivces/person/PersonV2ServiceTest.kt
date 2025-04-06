@@ -1,4 +1,4 @@
-package dev.leandro.kotlin_spring_boot.mockito.serivces.person
+package dev.leandro.kotlin_spring_boot.unit.mockito.serivces.person
 
 import dev.leandro.kotlin_spring_boot.exceptions.RequiredObjectIsNullException
 import dev.leandro.kotlin_spring_boot.mapper.custom.PersonMapper
@@ -57,7 +57,7 @@ internal class PersonV2ServiceTest {
         assertNotNull(personOne)
         assertNotNull(personOne.id)
         assertNotNull(personOne.links)
-        assertTrue(personOne.links.toString().contains("</v2/person/1>;rel=\"self\""))
+        assertTrue(personOne.links.toString().contains("</api/v2/person/1>;rel=\"self\""))
         assertEquals("Address Test1", personOne.address)
         assertEquals("First Name Test1", personOne.firstName)
         assertEquals("Last Name Test1", personOne.lastName)
@@ -68,7 +68,7 @@ internal class PersonV2ServiceTest {
         assertNotNull(personFour)
         assertNotNull(personFour.id)
         assertNotNull(personFour.links)
-        assertTrue(personFour.links.toString().contains("</v2/person/4>;rel=\"self\""))
+        assertTrue(personFour.links.toString().contains("</api/v2/person/4>;rel=\"self\""))
         assertEquals("Address Test4", personFour.address)
         assertEquals("First Name Test4", personFour.firstName)
         assertEquals("Last Name Test4", personFour.lastName)
@@ -79,7 +79,7 @@ internal class PersonV2ServiceTest {
         assertNotNull(personSeven)
         assertNotNull(personSeven.id)
         assertNotNull(personSeven.links)
-        assertTrue(personSeven.links.toString().contains("</v2/person/7>;rel=\"self\""))
+        assertTrue(personSeven.links.toString().contains("</api/v2/person/7>;rel=\"self\""))
         assertEquals("Address Test7", personSeven.address)
         assertEquals("First Name Test7", personSeven.firstName)
         assertEquals("Last Name Test7", personSeven.lastName)
@@ -97,7 +97,7 @@ internal class PersonV2ServiceTest {
         assertNotNull(result)
         assertNotNull(result.id)
         assertNotNull(result.links)
-        assertTrue(result.links.toString().contains("</v2/person/1>;rel=\"self\""))
+        assertTrue(result.links.toString().contains("</api/v2/person/1>;rel=\"self\""))
         assertEquals("Address Test1", result.address)
         assertEquals("First Name Test1", result.firstName)
         assertEquals("Last Name Test1", result.lastName)
@@ -119,8 +119,7 @@ internal class PersonV2ServiceTest {
         assertNotNull(result)
         assertNotNull(result.id)
         assertNotNull(result.links)
-        println(result.links)
-        assertTrue(result.links.toString().contains("</v2/person/1>;rel=\"self\""))
+        assertTrue(result.links.toString().contains("</api/v2/person/1>;rel=\"self\""))
         assertEquals("Address Test1", result.address)
         assertEquals("First Name Test1", result.firstName)
         assertEquals("Last Name Test1", result.lastName)
@@ -154,7 +153,7 @@ internal class PersonV2ServiceTest {
         assertNotNull(result)
         assertNotNull(result.id)
         assertNotNull(result.links)
-        assertTrue(result.links.toString().contains("</v2/person/1>;rel=\"self\""))
+        assertTrue(result.links.toString().contains("</api/v2/person/1>;rel=\"self\""))
         assertEquals("Address Test1", result.address)
         assertEquals("First Name Test1", result.firstName)
         assertEquals("Last Name Test1", result.lastName)

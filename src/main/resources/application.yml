@@ -11,3 +11,9 @@ spring:
         hibernate:
             ddl-auto: none #update in local and None in production
         show-sql: true #false in production
+spring-doc:
+    paths-to-match:
+        - /api/v2/person
+        - /api/v2/book
+    swagger-ui:
+        use-root-path: true
